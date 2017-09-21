@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jQuery UI Progressbar - Default functionality</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">    
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#progressbar").progressbar({
+                value: 0
+            });
+        });
+    </script>
+
+<body>
+
+    <div id="progressbar"></div>
+    <button id="refresh">RandomVolume</button>
+    <button id="plus">Volume +</button>
+    <button id="minus">Volume -</button>
+    <button id="mute">Mute</button>
+
+    <script> 
+        
+        //----------------------Random----------------------------------------------
+        $('#refresh').click(function () {
+            $.ajax({
+                url: '/ProgressBar/Randomized',
+                datatype: 'json'
+            }).done(function (data)
+                {
+                $("#progressbar").progressbar("value", data);
+                })
+                
+        });
+        $("#progressbar").progressbar({ value: 0 });
+
+        //----------------------Plus-------------------------------------------------
+        $('#plus').click(function (request,response) {
+            $.ajax({
+                url: '/ProgressBar/Plus',
+                datatype: 'json',
+                data: { pbcurrentvalue: $("#progressbar").progressbar("value") }
+            }).done(function (data) {
+                $("#progressbar").progressbar("value", data);
+            })
+
+        });
+        //$("#progressbar").progressbar({ value: 0 });
+
+        //-------------------------Minus-----------------------------------------------
+        $('#minus').click(function (request,response) {
+            $.ajax({
+                url: '/ProgressBar/Minus',
+                datatype: 'json',
+                data: { pbcurrentvalue: $("#progressbar").progressbar("value")}
+            }).done(function (data) {
+                $("#progressbar").progressbar("value", data);
+            })
+
+        });
+        //$("#progressbar").progressbar({ value: 0 });
+
+        //--------------------------Mute------------------------------------------------
+        $("#mute").click(function () {
+            $.ajax({
+                url: '/ProgressBar/Mute',
+                datatype: 'json',
+                //data: { pbcurrentvalue: $('#progressbar').progressbar('value')}
+            }).done(function (data) {
+                $('#progressbar').progressbar('value', data);
+            })
+        });
+        $("#progressbar").progressbar({ value: 0 });
+            
+            
+        
+    </script>
+
+</body>
+
